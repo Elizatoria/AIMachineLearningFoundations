@@ -1,10 +1,20 @@
+'''
+1. Set up Evviroment
+pip install psutil requests python-dotenv openai
+
+2. Create Data Retrieval Functions
+get_current_weather: Returns the current weather for a specified location using the OpenWeatherMap API.
+ask_wolfram: Returns a factual answer to a query using the Wolfram Alpha Short Answers API.
+get_current_time_and_date: Returns the current date and time.
+get_top_headlines: Returns the top news headlines using the NewsAPI.
+get_battery_status: Returns the battery percentage and whether the device is plugged in.
+'''
 import datetime
 import psutil
 import requests
 from dotenv import load_dotenv
 from openai import OpenAI
-import os
-import json
+import os, json
 
 # Load environment variables from .env file
 load_dotenv("C:/Users/Eliza/Documents/MachineLearning/AI_API/midterm_api.env")
@@ -56,15 +66,30 @@ def get_battery_status():
     else:
         return "Sorry, I couldn't retrieve the battery status."
 
+'''3. Create the Function to make the Conversation Chatbot'''
 # Function to handle the conversation
 def run_conversation():
-    # Set up the initial message list with a system message
+    # Step 1: Send the conversation and available functions to the model
+    '''Test Messages'''
+    # messages = [{"role": "user", "content": "What's the weather like in San Francisco, Tokyo, and Paris?"}]
+    # messages = [{"role": "user", "content": "What is the percent of 68 out of 100?"}]
+    # messages = [{"role": "user", "content": "What is the current date and time?"}]
+    # messages = [{"role": "user", "content": "What are the top headlines?"}]
+    # messages = [{"role": "user", "content": "What is the battery status?"}]
+    '''Actual Messages (Message_List)'''
+    prompt = input("Enter a prompt: ")
     messages = [
-        {
-            "role": "system",
-            "content": "You are a helpful assistant."
-        }
-    ]
+    # This is the system message. You can add more detail here about how you want the model to respond.
+    {
+        "role": "system",
+        "content": "You are a helpful assistant."
+    },
+    # This is the user message. This is the prompt that you want the model to respond to.
+    {
+        "role": "user",
+        "content": prompt
+    }
+]
 
     tools = [
         {
@@ -109,71 +134,58 @@ def run_conversation():
         {
             "type": "function",
             "function": {
-                "name": "get_top_headlines",
-                "description": "Get the current top news headlines.",
+            "name": "get_top_headlines",
+            "description": "Get the current top news headlines.",
             }
         },
         {
             "type": "function",
             "function": {
-                "name": "get_battery_status",
-                "description": "Get the current battery status of the device.",
+            "name": "get_battery_status",
+            "description": "Get the current battery status of the device.",
             }
         }
     ]
-
-    while True:
-        prompt = input("Enter a prompt (or type 'exit' to quit): ")
-        if prompt.lower() == 'exit':
-            print("Goodbye!")
-            break
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=messages,
+        tools=tools,
+        tool_choice="auto",
+    )
+    response_message = response.choices[0].message
+    tool_calls = response_message.tool_calls
+    
+    # Step 2: Check if the model wanted to call a function
+    if tool_calls:
+        # Step 3: Call the functions
+        available_functions = {
+            "get_current_weather": get_current_weather,
+            "ask_wolfram": ask_wolfram,
+            "get_current_time_and_date": get_current_time_and_date,
+            "get_top_headlines": get_top_headlines,
+            "get_battery_status": get_battery_status
+        }
+        messages.append(response_message)
         
-        messages.append(
-            {
-                "role": "user",
-                "content": prompt
-            }
-        )
-
-        response = client.chat.completions.create(
+        # Step 4: Send the info for each function call and function response to the model
+        for tool_call in tool_calls:
+            function_name = tool_call.function.name
+            function_to_call = available_functions[function_name]
+            function_args = json.loads(tool_call.function.arguments)
+            function_response = function_to_call(**function_args)
+            messages.append(
+                {
+                    "tool_call_id": tool_call.id,
+                    "role": "tool",
+                    "name": function_name,
+                    "content": function_response,
+                }
+            )
+        print(messages)
+        second_response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=messages,
-            tools=tools,
-            tool_choice="auto",
         )
-        response_message = response.choices[0].message
-        tool_calls = response_message.tool_calls
-        
-        # Check if the model wanted to call a function
-        if tool_calls:
-            available_functions = {
-                "get_current_weather": get_current_weather,
-                "ask_wolfram": ask_wolfram,
-                "get_current_time_and_date": get_current_time_and_date,
-                "get_top_headlines": get_top_headlines,
-                "get_battery_status": get_battery_status
-            }
-            messages.append(response_message)
-            
-            # Call the functions
-            for tool_call in tool_calls:
-                function_name = tool_call.function.name
-                function_to_call = available_functions[function_name]
-                function_args = json.loads(tool_call.function.arguments)
-                function_response = function_to_call(**function_args)
-                messages.append(
-                    {
-                        "tool_call_id": tool_call.id,
-                        "role": "tool",
-                        "name": function_name,
-                        "content": function_response,
-                    }
-                )
-
-            second_response = client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=messages,
-            )
-            print(second_response.choices[0].message.content)
+        return second_response.choices[0].message.content
 
 print(run_conversation())
