@@ -177,3 +177,49 @@ def run_conversation():
             print(second_response.choices[0].message.content)
 
 print(run_conversation())
+
+'''Test?'''
+import unittest
+from unittest.mock import patch
+
+class TestChatbotFunctions(unittest.TestCase):
+    
+    def test_get_current_weather(self):
+        # Test the weather function with a known location
+        location = "New York"
+        unit = "fahrenheit"
+        response = get_current_weather(location, unit)
+        self.assertIn("The current weather in", response)
+
+    def test_ask_wolfram(self):
+        # Test the Wolfram function with a simple math question
+        query = "What is 2+2"
+        response = ask_wolfram(query)
+        self.assertIn("2+2", response)
+
+    def test_get_current_time_and_date(self):
+        # Test the time and date function
+        response = get_current_time_and_date()
+        self.assertIn("The current date and time is", response)
+
+    def test_get_top_headlines(self):
+        # Test the headlines function
+        response = get_top_headlines()
+        self.assertIn("Here are the top headlines", response)
+
+    def test_get_battery_status(self):
+        # Test the battery status function
+        response = get_battery_status()
+        self.assertIn("The battery is at", response)
+
+    @patch('builtins.input', side_effect=["What is the weather in New York?", "exit"])
+    @patch('builtins.print')
+    def test_run_conversation(self, mock_print, mock_input):
+        # Test the conversation loop with a mock input
+        run_conversation()
+        # Check if the expected print outputs were called
+        self.assertTrue(any("Goodbye!" in args[0] for args in mock_print.call_args_list))
+        self.assertTrue(any("The current weather in" in args[0] for args in mock_print.call_args_list))
+
+if __name__ == "__main__":
+    unittest.main()
