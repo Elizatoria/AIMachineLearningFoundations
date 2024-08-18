@@ -60,5 +60,5 @@ class FashionMNIST_CNN(nn.Module):
         return x
 
 # Example usage (not required for the assignment)
-model = FashionMNIST_CNN()
-print(model)
+# model = FashionMNIST_CNN()
+# print(model)
