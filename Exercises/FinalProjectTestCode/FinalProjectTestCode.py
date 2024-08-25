@@ -167,3 +167,58 @@ Finished Training
 Model saved to fashion_mnist_cnn.pt
 Accuracy of the network on the 10,000 test images: 88.89%
 '''
+
+""" 
+c:\Users\Eliza\Documents\MachineLearning\AIMachineLearningFoundations\Exercises\FinalProjectTestCode\FinalProjectTestCode.py:118: SyntaxWarning: invalid escape sequence '\F'
+
+Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-images-idx3-ubyte.gz
+Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-images-idx3-ubyte.gz to ./data\FashionMNIST\raw\train-images-idx3-ubyte.gz
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████| 26421880/26421880 [04:26<00:00, 98998.62it/s]
+Extracting ./data\FashionMNIST\raw\train-images-idx3-ubyte.gz to ./data\FashionMNIST\raw
+
+Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-labels-idx1-ubyte.gz
+Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-labels-idx1-ubyte.gz to ./data\FashionMNIST\raw\train-labels-idx1-ubyte.gz
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████| 29515/29515 [00:00<00:00, 176954.49it/s]
+Extracting ./data\FashionMNIST\raw\train-labels-idx1-ubyte.gz to ./data\FashionMNIST\raw
+
+Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-images-idx3-ubyte.gz
+Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-images-idx3-ubyte.gz to ./data\FashionMNIST\raw\t10k-images-idx3-ubyte.gz
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████| 4422102/4422102 [01:05<00:00, 67386.15it/s]
+Extracting ./data\FashionMNIST\raw\t10k-images-idx3-ubyte.gz to ./data\FashionMNIST\raw
+
+Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-labels-idx1-ubyte.gz
+Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-labels-idx1-ubyte.gz to ./data\FashionMNIST\raw\t10k-labels-idx1-ubyte.gz
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5148/5148 [00:00<00:00, 653143.68it/s]
+Extracting ./data\FashionMNIST\raw\t10k-labels-idx1-ubyte.gz to ./data\FashionMNIST\raw
+
+Epoch [1/3], Batch [100/938], Loss: 1.006
+Epoch [1/3], Batch [200/938], Loss: 0.548
+Epoch [1/3], Batch [300/938], Loss: 0.474
+Epoch [1/3], Batch [400/938], Loss: 0.419
+Epoch [1/3], Batch [500/938], Loss: 0.421
+Epoch [1/3], Batch [600/938], Loss: 0.413
+Epoch [1/3], Batch [700/938], Loss: 0.394
+Epoch [1/3], Batch [800/938], Loss: 0.385
+Epoch [1/3], Batch [900/938], Loss: 0.381
+Epoch [2/3], Batch [100/938], Loss: 0.395
+Epoch [2/3], Batch [200/938], Loss: 0.356
+Epoch [2/3], Batch [300/938], Loss: 0.339
+Epoch [2/3], Batch [400/938], Loss: 0.339
+Epoch [2/3], Batch [500/938], Loss: 0.354
+Epoch [2/3], Batch [600/938], Loss: 0.357
+Epoch [2/3], Batch [700/938], Loss: 0.345
+Epoch [2/3], Batch [800/938], Loss: 0.357
+Epoch [2/3], Batch [900/938], Loss: 0.343
+Epoch [3/3], Batch [100/938], Loss: 0.324
+Epoch [3/3], Batch [200/938], Loss: 0.318
+Epoch [3/3], Batch [300/938], Loss: 0.341
+Epoch [3/3], Batch [400/938], Loss: 0.328
+Epoch [3/3], Batch [500/938], Loss: 0.331
+Epoch [3/3], Batch [600/938], Loss: 0.320
+Epoch [3/3], Batch [700/938], Loss: 0.314
+Epoch [3/3], Batch [800/938], Loss: 0.346
+Epoch [3/3], Batch [900/938], Loss: 0.326
+Finished Training
+Model saved to fashion_mnist_cnn.pt
+Accuracy of the network on the 10,000 test images: 86.70% 
+"""
